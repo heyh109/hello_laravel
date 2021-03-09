@@ -11,7 +11,7 @@
 
         @include('shared._errors')
 
-        <div class="gravatar_edit">
+       <div class="gravatar_edit">
           <a href="http://gravatar.com/emails" target="_blank">
             <img src="{{ $user->gravatar('200') }}" alt="{{ $user->name }}" class="gravatar"/>
           </a>

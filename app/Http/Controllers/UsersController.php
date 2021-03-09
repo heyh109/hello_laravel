@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Auth;
 
 class UsersController extends Controller
 {
@@ -37,18 +38,23 @@ class UsersController extends Controller
     {
         return view('users.edit', compact('user'));
     }
-    public function update(User $user, Request $request)
+public function update(User $user, Request $request)
     {
         $this->validate($request, [
             'name' => 'required|max:50',
-            'password' => 'required|confirmed|min:6'
+            'password' => 'nullable|confirmed|min:6'
         ]);
 
-        $user->update([
-            'name' => $request->name,
-            'password' => bcrypt($request->password),
-        ]);
+        $data = [];
+        $data['name'] = $request->name;
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+        $user->update($data);
 
-        return redirect()->route('users.show', $user->id);
+        session()->flash('success', '个人资料更新成功！');
+
+        return redirect()->route('users.show', $user);
     }
+ 
 }

@@ -36,11 +36,11 @@ class SessionsController extends Controller
         session()->flash('success', '您已成功退出！');
         return redirect('login');
     }
-    /*public function __construct()
+    public function __construct()
     {
         $this->middleware('guest', [
             'only' => ['create']
         ]);
     }
-    */
+    
 }

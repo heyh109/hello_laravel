@@ -60,8 +60,8 @@ public function update(User $user, Request $request)
     }
 public function __construct()
     {
-        $this->middleware('auth', [            
-            'except' => ['show', 'create', 'store']
+        $this->middleware('auth', [
+            'except' => ['show', 'create', 'store', 'index']
         ]);
          $this->middleware('guest', [
             'only' => ['create']
@@ -72,6 +72,14 @@ public function __construct()
     {
         $users = User::paginate(10);
         return view('users.index', compact('users'));
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('destroy', $user);
+        $user->delete();
+        session()->flash('success', '成功删除用户！');
+        return back();
     }
  
 }
